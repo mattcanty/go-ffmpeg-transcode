@@ -1,4 +1,4 @@
-module github.com/matt.canty/go-ffmpeg-transcode
+module github.com/mattcanty/go-ffmpeg-transcode
 
 go 1.16
 

@@ -12,7 +12,7 @@ package main
 import (
 	"log"
 
-	"github.com/matt.canty/go-ffmpeg-transcode/pkg/ffmpeg"
+	"github.com/mattcanty/go-ffmpeg-transcode/pkg/ffmpeg"
 )
 
 func main() {
