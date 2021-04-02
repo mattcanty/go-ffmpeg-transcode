@@ -8,12 +8,15 @@ import (
 
 func Transcode(inFilePath string, outFilePath string) error {
 	return exec.Command(
+		"cmd",
+		"/C",
 		"ffmpeg",
 		"-y",
 		"-loglevel",
 		"quiet",
 		"-stats",
 		"-i",
+
 		inFilePath,
 		outFilePath,
 	).Run()
