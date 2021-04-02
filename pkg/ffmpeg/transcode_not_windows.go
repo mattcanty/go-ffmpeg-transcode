@@ -1,10 +1,11 @@
+// +build !windows
+
 package ffmpeg
 
 import (
 	"fmt"
 	"io"
 	"os/exec"
-	"runtime"
 
 	"github.com/creack/pty"
 	"github.com/oriser/regroup"
@@ -28,23 +29,18 @@ func Transcode(inFilePath string, outFilePath string) error {
 		outFilePath,
 	)
 
-	if runtime.GOOS == "windows" {
-		err := command.Run()
+	ptyFile, err := pty.Start(command)
 
-		return err
-	} else {
-		ptyFile, err := pty.Start(command)
-
-		if err != nil {
-			return err
-		}
-
-		progress := &Progress{}
-
-		_, err = io.Copy(progress, ptyFile)
-
+	if err != nil {
 		return err
 	}
+
+	progress := &Progress{}
+
+	_, err = io.Copy(progress, ptyFile)
+
+	return err
+
 }
 
 func (progress *Progress) Write(p []byte) (int, error) {
