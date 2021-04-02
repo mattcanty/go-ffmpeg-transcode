@@ -3,13 +3,14 @@
 package ffmpeg
 
 import (
+	"errors"
+	"fmt"
 	"os/exec"
+	"strings"
 )
 
 func Transcode(inFilePath string, outFilePath string) error {
-	return exec.Command(
-		"cmd",
-		"/C",
+	command := exec.Command(
 		"ffmpeg",
 		"-y",
 		"-loglevel",
@@ -19,5 +20,15 @@ func Transcode(inFilePath string, outFilePath string) error {
 
 		inFilePath,
 		outFilePath,
-	).Run()
+	)
+
+	out, _ := command.CombinedOutput()
+
+	if !strings.HasPrefix(string(out), "size=") {
+		return errors.New(
+			fmt.Sprintf("Failed to transcode with commend '%s'", command.Args),
+		)
+	}
+
+	return nil
 }
